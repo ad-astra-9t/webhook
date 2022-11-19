@@ -16,7 +16,6 @@ type WebhookStore struct {
 	db        *sqlx.DB
 	dbAdapter webhookDBAdapter
 	tableName string
-	tx        *sqlx.Tx
 }
 
 type webhookDBAdapter func(webhook domain.Webhook) db.Webhook
@@ -70,9 +69,6 @@ INSERT INTO
 		($1)`,
 		s.tableName,
 	)
-	if s.tx != nil {
-		return s.tx.Exec(query, args...)
-	}
 	return s.db.Exec(query, args...)
 }
 
@@ -99,9 +95,6 @@ WHERE
 	callback = $1`,
 		s.tableName,
 	)
-	if s.tx != nil {
-		return s.tx.QueryRowx(query, args...)
-	}
 	return s.db.QueryRowx(query, args...)
 }
 
