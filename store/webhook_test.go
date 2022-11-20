@@ -4,30 +4,30 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ad-astra-9t/webhook/db"
 	"github.com/ad-astra-9t/webhook/domain"
+	"github.com/ad-astra-9t/webhook/model"
 )
 
 func TestCreateWebhook(t *testing.T) {
 	t.Run("Test create webhook", func(t *testing.T) {
+		db := model.MustNewDB(
+			"postgres",
+			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
+		)
 		store := WebhookStore{
-			db: db.MustNewDB(
-				"postgres",
-				"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
-			),
-			tableName: "webhooks",
-			dbAdapter: db.AdaptWebhook,
+			model:        model.NewWebhookModel(db),
+			modelAdapter: model.WebhookAdapter{},
 		}
-		w1 := domain.Webhook{Callback: "https://callback.com"}
+		target := domain.Webhook{Callback: "https://callback.com"}
 
-		err := store.CreateWebhook(w1)
+		err := store.CreateWebhook(target)
 		if err != nil {
 			t.Fatalf("Failed to create webhook: %s\n", err.Error())
 		}
 
-		w2, err := store.GetWebhook(w1)
-		if err != nil || !reflect.DeepEqual(w2, w1) {
-			t.Errorf("Webhook is created incorrectly, err: %#v, got: %#v, want: %#v\n", err, w2, w1)
+		result, err := store.GetWebhook(target)
+		if err != nil || !reflect.DeepEqual(result, target) {
+			t.Errorf("Webhook is created incorrectly, err: %#v, got: %#v, want: %#v\n", err, result, target)
 		}
 	})
 }
