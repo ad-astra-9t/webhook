@@ -1,4 +1,4 @@
-package model
+package dbx
 
 import (
 	"github.com/jmoiron/sqlx"

@@ -1,4 +1,4 @@
-package model
+package dbx
 
 import "testing"
 
