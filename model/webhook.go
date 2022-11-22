@@ -6,7 +6,6 @@ import (
 	"reflect"
 
 	"github.com/ad-astra-9t/webhook/domain"
-	"github.com/jmoiron/sqlx"
 )
 
 const webhookTableName = "webhooks"
@@ -17,7 +16,7 @@ type Webhook struct {
 }
 
 type WebhookModel struct {
-	db *sqlx.DB
+	dbx DBX
 }
 
 type WebhookAdapter struct{}
@@ -59,7 +58,12 @@ func (m WebhookModel) GetWebhook(target Webhook) (result Webhook, err error) {
 		return result, err
 	}
 
-	row := m.db.QueryRowx(query, args...)
+	ext, err := m.dbx.ToExt()
+	if err != nil {
+		return result, err
+	}
+
+	row := ext.QueryRowx(query, args...)
 	err = row.StructScan(&result)
 
 	return result, err
@@ -99,7 +103,12 @@ INSERT INTO
 		return err
 	}
 
-	_, err = m.db.Exec(query, args...)
+	ext, err := m.dbx.ToExt()
+	if err != nil {
+		return err
+	}
+
+	_, err = ext.Exec(query, args...)
 
 	return err
 }
@@ -120,8 +129,8 @@ func (WebhookAdapter) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.We
 	return
 }
 
-func NewWebhookModel(db *sqlx.DB) WebhookModel {
+func NewWebhookModel(dbx DBX) WebhookModel {
 	return WebhookModel{
-		db: db,
+		dbx: dbx,
 	}
 }
