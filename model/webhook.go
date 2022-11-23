@@ -17,8 +17,6 @@ type WebhookModel struct {
 	dbx DBX
 }
 
-type WebhookAdapter struct{}
-
 func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error) {
 	args := make([]interface{}, 0)
 
@@ -97,7 +95,7 @@ func (m WebhookModel) CreateWebhook(target Webhook) error {
 	return err
 }
 
-func (WebhookAdapter) AdaptDB(domainwebhook domain.Webhook) (modelwebhook Webhook) {
+func (m WebhookModel) AdaptModel(domainwebhook domain.Webhook) (modelwebhook Webhook) {
 	modelwebhook = Webhook{
 		ID:       domainwebhook.ID,
 		Callback: domainwebhook.Callback,
@@ -105,7 +103,7 @@ func (WebhookAdapter) AdaptDB(domainwebhook domain.Webhook) (modelwebhook Webhoo
 	return
 }
 
-func (WebhookAdapter) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.Webhook) {
+func (m WebhookModel) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.Webhook) {
 	domainwebhook = domain.Webhook{
 		ID:       modelwebhook.ID,
 		Callback: modelwebhook.Callback,

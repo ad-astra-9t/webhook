@@ -17,8 +17,7 @@ func TestCreateWebhook(t *testing.T) {
 		)
 		dbx := dbx.NewDBX(db, nil)
 		store := WebhookStore{
-			model:        model.NewWebhookModel(dbx),
-			modelAdapter: model.WebhookAdapter{},
+			model: model.NewWebhookModel(dbx),
 		}
 		target := domain.Webhook{Callback: "https://callback.com"}
 
