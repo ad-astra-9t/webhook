@@ -15,6 +15,6 @@ func (s *WebhookService) CreateWebhook(webhook domain.Webhook) error {
 	return s.store.CreateWebhook(webhook)
 }
 
-func (s *WebhookService) GetWebhook(webhook domain.Webhook) error {
-	return s.store.CreateWebhook(webhook)
+func (s *WebhookService) GetWebhook(webhook domain.Webhook) (domain.Webhook, error) {
+	return s.store.GetWebhook(webhook)
 }
