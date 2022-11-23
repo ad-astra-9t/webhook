@@ -6,24 +6,23 @@ import (
 )
 
 type WebhookStore struct {
-	model        model.WebhookModel
-	modelAdapter model.WebhookAdapter
+	model model.WebhookModel
 }
 
 func (s *WebhookStore) CreateWebhook(target domain.Webhook) error {
-	modeltarget := s.modelAdapter.AdaptDB(target)
+	modeltarget := s.model.AdaptModel(target)
 	return s.model.CreateWebhook(modeltarget)
 }
 
 func (s *WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, err error) {
-	modeltarget := s.modelAdapter.AdaptDB(target)
+	modeltarget := s.model.AdaptModel(target)
 
 	modelresult, err := s.model.GetWebhook(modeltarget)
 	if err != nil {
 		return result, err
 	}
 
-	result = s.modelAdapter.AdaptDomain(modelresult)
+	result = s.model.AdaptDomain(modelresult)
 
 	return result, err
 }
