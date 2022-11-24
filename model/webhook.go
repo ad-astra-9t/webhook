@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/ad-astra-9t/webhook/dbx"
 	"github.com/ad-astra-9t/webhook/domain"
 )
 
@@ -16,7 +17,7 @@ type Webhook struct {
 }
 
 type WebhookModel struct {
-	dbx DBX
+	dbx *dbx.DBX
 }
 
 func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error) {
@@ -127,7 +128,7 @@ func (m WebhookModel) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.We
 	return
 }
 
-func NewWebhookModel(dbx DBX) WebhookModel {
+func NewWebhookModel(dbx *dbx.DBX) WebhookModel {
 	return WebhookModel{
 		dbx: dbx,
 	}
