@@ -24,6 +24,6 @@ func (d *DBX) ToExt() (interface {
 	return nil, errors.New("failed to convert DBX to Ext")
 }
 
-func NewDBX(db *sqlx.DB, tx *sqlx.Tx) *DBX {
-	return &DBX{DB: db, Tx: tx}
+func NewDBX(db *sqlx.DB) *DBX {
+	return &DBX{DB: db}
 }
