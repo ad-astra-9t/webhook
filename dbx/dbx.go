@@ -8,23 +8,15 @@ import (
 
 type DBX struct {
 	*sqlx.DB
-	tx *sqlx.Tx
-}
-
-func (d *DBX) ToDB() *sqlx.DB {
-	return d.DB
-}
-
-func (d *DBX) ToTx() *sqlx.Tx {
-	return d.tx
+	Tx *sqlx.Tx
 }
 
 func (d *DBX) ToExt() (interface {
 	sqlx.Ext
 	sqlx.ExtContext
 }, error) {
-	if d.tx != nil {
-		return d.tx, nil
+	if d.Tx != nil {
+		return d.Tx, nil
 	}
 	if d.DB != nil {
 		return d.DB, nil
@@ -33,5 +25,5 @@ func (d *DBX) ToExt() (interface {
 }
 
 func NewDBX(db *sqlx.DB, tx *sqlx.Tx) *DBX {
-	return &DBX{DB: db, tx: tx}
+	return &DBX{DB: db, Tx: tx}
 }
