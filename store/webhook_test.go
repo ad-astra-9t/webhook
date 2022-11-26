@@ -15,7 +15,7 @@ func TestCreateWebhook(t *testing.T) {
 			"postgres",
 			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 		)
-		dbx := dbx.NewDBX(db, nil)
+		dbx := dbx.NewDBX(db)
 		store := WebhookStore{
 			model: model.NewWebhookModel(dbx),
 		}

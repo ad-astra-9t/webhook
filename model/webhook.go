@@ -4,7 +4,8 @@ import (
 	"errors"
 	"reflect"
 
-	dbx "github.com/ad-astra-9t/webhook/dbx/query"
+	"github.com/ad-astra-9t/webhook/dbx"
+	query "github.com/ad-astra-9t/webhook/dbx/query"
 	"github.com/ad-astra-9t/webhook/domain"
 )
 
@@ -14,7 +15,7 @@ type Webhook struct {
 }
 
 type WebhookModel struct {
-	dbx DBX
+	dbx *dbx.DBX
 }
 
 func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error) {
@@ -39,7 +40,7 @@ func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error
 }
 
 func (m WebhookModel) GetWebhook(target Webhook) (result Webhook, err error) {
-	query := dbx.PGQueryGetWebhook
+	query := query.PGQueryGetWebhook
 
 	args, err := m.getWebhookArgs(target)
 	if err != nil {
@@ -78,7 +79,7 @@ func (m WebhookModel) createWebhookArgs(modelwebhook Webhook) ([]interface{}, er
 }
 
 func (m WebhookModel) CreateWebhook(target Webhook) error {
-	query := dbx.PGQueryCreateWebhook
+	query := query.PGQueryCreateWebhook
 
 	args, err := m.createWebhookArgs(target)
 	if err != nil {
@@ -111,7 +112,7 @@ func (m WebhookModel) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.We
 	return
 }
 
-func NewWebhookModel(dbx DBX) WebhookModel {
+func NewWebhookModel(dbx *dbx.DBX) WebhookModel {
 	return WebhookModel{
 		dbx: dbx,
 	}
