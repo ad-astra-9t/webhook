@@ -9,12 +9,12 @@ type WebhookStore struct {
 	model model.WebhookModel
 }
 
-func (s *WebhookStore) CreateWebhook(target domain.Webhook) error {
+func (s WebhookStore) CreateWebhook(target domain.Webhook) error {
 	modeltarget := s.model.AdaptModel(target)
 	return s.model.CreateWebhook(modeltarget)
 }
 
-func (s *WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, err error) {
+func (s WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, err error) {
 	modeltarget := s.model.AdaptModel(target)
 
 	modelresult, err := s.model.GetWebhook(modeltarget)
