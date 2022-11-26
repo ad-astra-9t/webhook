@@ -2,14 +2,12 @@ package model
 
 import (
 	"errors"
-	"fmt"
 	"reflect"
 
 	"github.com/ad-astra-9t/webhook/dbx"
+	query "github.com/ad-astra-9t/webhook/dbx/query"
 	"github.com/ad-astra-9t/webhook/domain"
 )
-
-const webhookTableName = "webhooks"
 
 type Webhook struct {
 	ID       uint   `db:"id"`
@@ -42,15 +40,7 @@ func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error
 }
 
 func (m WebhookModel) GetWebhook(target Webhook) (result Webhook, err error) {
-	query := fmt.Sprintf(`
-	SELECT
-		callback
-	FROM
-		%s
-	WHERE
-		callback = $1`,
-		webhookTableName,
-	)
+	query := query.PGQueryGetWebhook
 
 	args, err := m.getWebhookArgs(target)
 	if err != nil {
@@ -89,13 +79,7 @@ func (m WebhookModel) createWebhookArgs(modelwebhook Webhook) ([]interface{}, er
 }
 
 func (m WebhookModel) CreateWebhook(target Webhook) error {
-	query := fmt.Sprintf(`
-INSERT INTO
-	%s (callback)
-	VALUES
-		($1)`,
-		webhookTableName,
-	)
+	query := query.PGQueryCreateWebhook
 
 	args, err := m.createWebhookArgs(target)
 	if err != nil {
