@@ -6,7 +6,7 @@ import (
 )
 
 type WebhookStore struct {
-	model model.Model
+	model *model.Model
 }
 
 func (s WebhookStore) CreateWebhook(target domain.Webhook) error {

@@ -6,8 +6,8 @@ type Model struct {
 	WebhookModel
 }
 
-func NewModel(dbx *dbx.DBX) Model {
-	return Model{
+func NewModel(dbx *dbx.DBX) *Model {
+	return &Model{
 		NewWebhookModel(dbx),
 	}
 }
