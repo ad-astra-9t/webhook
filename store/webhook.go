@@ -26,3 +26,9 @@ func (s WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, 
 
 	return result, err
 }
+
+func NewWebhookStore(model *model.Model) WebhookStore {
+	return WebhookStore{
+		model: model,
+	}
+}
