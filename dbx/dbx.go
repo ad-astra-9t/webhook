@@ -1,6 +1,7 @@
 package dbx
 
 import (
+	"database/sql"
 	"errors"
 
 	"github.com/jmoiron/sqlx"
@@ -8,7 +9,8 @@ import (
 
 type DBX struct {
 	*sqlx.DB
-	Tx *sqlx.Tx
+	Tx        *sqlx.Tx
+	TxOptions *sql.TxOptions
 }
 
 func (d *DBX) ToExt() (interface {
