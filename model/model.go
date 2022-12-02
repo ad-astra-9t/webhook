@@ -16,7 +16,7 @@ type ModelChain struct {
 	*Model
 }
 
-func (c ModelChain) Start(ctx context.Context) error {
+func (c *ModelChain) Start(ctx context.Context) error {
 	tx, err := c.dbx.BeginTxx(ctx, c.dbx.TxOptions)
 	if err != nil {
 		return err
@@ -27,11 +27,11 @@ func (c ModelChain) Start(ctx context.Context) error {
 	return nil
 }
 
-func (c ModelChain) Cancel() error {
+func (c *ModelChain) Cancel() error {
 	return c.dbx.Tx.Rollback()
 }
 
-func (c ModelChain) End() error {
+func (c *ModelChain) End() error {
 	return c.dbx.Tx.Commit()
 }
 
