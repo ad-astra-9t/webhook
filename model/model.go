@@ -12,6 +12,10 @@ type Model struct {
 	EventModel
 }
 
+type ModelTx struct {
+	*Model
+}
+
 func (m *Model) Tx() *ModelTx {
 	dbxCopy := new(dbx.DBX)
 	*dbxCopy = *m.dbx
@@ -21,10 +25,6 @@ func (m *Model) Tx() *ModelTx {
 		NewEventModel(dbxCopy),
 	}
 	return &ModelTx{modelCopy}
-}
-
-type ModelTx struct {
-	*Model
 }
 
 func (c *ModelTx) Start(ctx context.Context) error {
