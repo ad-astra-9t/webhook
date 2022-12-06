@@ -47,12 +47,12 @@ func (m WebhookModel) GetWebhook(target Webhook) (result Webhook, err error) {
 		return result, err
 	}
 
-	txdb, err := m.dbx.TxDB()
+	db, err := m.dbx.AutoTxDB()
 	if err != nil {
 		return result, err
 	}
 
-	row := txdb.QueryRowx(query, args...)
+	row := db.QueryRowx(query, args...)
 	err = row.StructScan(&result)
 
 	return result, err
@@ -86,12 +86,12 @@ func (m WebhookModel) CreateWebhook(target Webhook) error {
 		return err
 	}
 
-	txdb, err := m.dbx.TxDB()
+	db, err := m.dbx.AutoTxDB()
 	if err != nil {
 		return err
 	}
 
-	_, err = txdb.Exec(query, args...)
+	_, err = db.Exec(query, args...)
 
 	return err
 }
