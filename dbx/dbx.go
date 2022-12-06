@@ -25,7 +25,7 @@ func (d *DBX) TxDB() (TxDB, error) {
 	if d.DB != nil {
 		return d.DB, nil
 	}
-	return nil, errors.New("failed to convert DBX to Ext")
+	return nil, errors.New("failed to convert DBX to TxDB")
 }
 
 func NewDBX(db *sqlx.DB) *DBX {
