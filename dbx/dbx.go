@@ -13,12 +13,12 @@ type DBX struct {
 	TxOptions *sql.TxOptions
 }
 
-type AutoTxDB interface {
+type TxDB interface {
 	sqlx.Ext
 	sqlx.ExtContext
 }
 
-func (d *DBX) AutoTxDB() (AutoTxDB, error) {
+func (d *DBX) AutoTx() (TxDB, error) {
 	if d.Tx != nil {
 		return d.Tx, nil
 	}

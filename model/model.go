@@ -12,6 +12,10 @@ type Model struct {
 	EventModel
 }
 
+type AutoTxDB interface {
+	AutoTx() (dbx.TxDB, error)
+}
+
 func (m *Model) Tx() *ModelTx {
 	dbxCopy := new(dbx.DBX)
 	*dbxCopy = *m.dbx
