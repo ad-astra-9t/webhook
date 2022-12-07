@@ -4,7 +4,6 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/ad-astra-9t/webhook/dbx"
 	query "github.com/ad-astra-9t/webhook/dbx/query"
 	"github.com/ad-astra-9t/webhook/domain"
 )
@@ -15,7 +14,7 @@ type Webhook struct {
 }
 
 type WebhookModel struct {
-	dbx *dbx.DBX
+	autoTxDB AutoTxDB
 }
 
 func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error) {
@@ -47,12 +46,12 @@ func (m WebhookModel) GetWebhook(target Webhook) (result Webhook, err error) {
 		return result, err
 	}
 
-	db, err := m.dbx.AutoTxDB()
+	txdb, err := m.autoTxDB.AutoTx()
 	if err != nil {
 		return result, err
 	}
 
-	row := db.QueryRowx(query, args...)
+	row := txdb.QueryRowx(query, args...)
 	err = row.StructScan(&result)
 
 	return result, err
@@ -86,12 +85,12 @@ func (m WebhookModel) CreateWebhook(target Webhook) error {
 		return err
 	}
 
-	db, err := m.dbx.AutoTxDB()
+	txdb, err := m.autoTxDB.AutoTx()
 	if err != nil {
 		return err
 	}
 
-	_, err = db.Exec(query, args...)
+	_, err = txdb.Exec(query, args...)
 
 	return err
 }
@@ -112,8 +111,6 @@ func (m WebhookModel) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.We
 	return
 }
 
-func NewWebhookModel(dbx *dbx.DBX) WebhookModel {
-	return WebhookModel{
-		dbx: dbx,
-	}
+func NewWebhookModel(autoTxDB AutoTxDB) WebhookModel {
+	return WebhookModel{autoTxDB}
 }

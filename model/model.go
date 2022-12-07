@@ -16,6 +16,10 @@ type ModelTx struct {
 	*Model
 }
 
+type AutoTxDB interface {
+	AutoTx() (dbx.TxDB, error)
+}
+
 func (m *Model) Tx() *ModelTx {
 	dbxCopy := new(dbx.DBX)
 	*dbxCopy = *m.dbx
