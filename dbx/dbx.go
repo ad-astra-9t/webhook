@@ -1,6 +1,7 @@
 package dbx
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 
@@ -16,6 +17,17 @@ type DBX struct {
 type TxDB interface {
 	sqlx.Ext
 	sqlx.ExtContext
+}
+
+func (d *DBX) SetTx(ctx context.Context) error {
+	tx, err := d.BeginTxx(ctx, d.TxOptions)
+	if err != nil {
+		return err
+	}
+
+	d.Tx = tx
+
+	return nil
 }
 
 func (d *DBX) AutoTx() (TxDB, error) {
