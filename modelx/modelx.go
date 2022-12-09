@@ -1,6 +1,9 @@
 package modelx
 
-import "errors"
+import (
+	"context"
+	"errors"
+)
 
 type Modelx struct {
 	*Model
@@ -10,6 +13,17 @@ type Modelx struct {
 type TxModel interface {
 	GetWebhook(target Webhook) (result Webhook, err error)
 	CreateWebhook(target Webhook) error
+}
+
+func (m *Modelx) SetTx(ctx context.Context) error {
+	tx, err := m.Model.Tx(ctx)
+	if err != nil {
+		return err
+	}
+
+	m.Tx = tx
+
+	return nil
 }
 
 func (m *Modelx) AutoTx() (TxModel, error) {
