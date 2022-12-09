@@ -1,4 +1,4 @@
-package model
+package modelx
 
 type Event struct {
 	ID uint `db:"id"`

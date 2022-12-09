@@ -2,11 +2,11 @@ package store
 
 import (
 	"github.com/ad-astra-9t/webhook/domain"
-	"github.com/ad-astra-9t/webhook/model"
+	"github.com/ad-astra-9t/webhook/modelx"
 )
 
 type WebhookStore struct {
-	model *model.Model
+	model *modelx.Model
 }
 
 func (s WebhookStore) CreateWebhook(target domain.Webhook) error {
@@ -27,7 +27,7 @@ func (s WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, 
 	return result, err
 }
 
-func NewWebhookStore(model *model.Model) WebhookStore {
+func NewWebhookStore(model *modelx.Model) WebhookStore {
 	return WebhookStore{
 		model: model,
 	}
