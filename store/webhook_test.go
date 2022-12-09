@@ -16,8 +16,9 @@ func TestCreateWebhook(t *testing.T) {
 			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 		)
 		dbx := dbx.NewDBX(db)
+		model := modelx.NewModel(dbx)
 		store := WebhookStore{
-			model: modelx.NewModel(dbx),
+			modelx: modelx.NewModelx(model),
 		}
 		target := domain.Webhook{Callback: "https://callback.com"}
 

@@ -6,8 +6,8 @@ type Store struct {
 	WebhookStore
 }
 
-func NewStore(model *modelx.Model) *Store {
+func NewStore(modelx *modelx.Modelx) *Store {
 	return &Store{
-		WebhookStore: NewWebhookStore(model),
+		WebhookStore: NewWebhookStore(modelx),
 	}
 }
