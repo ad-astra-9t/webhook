@@ -20,26 +20,21 @@ type AutoTxDB interface {
 	AutoTx() (dbx.TxDB, error)
 }
 
-func (m *Model) Tx() *ModelTx {
+func (m *Model) Tx(ctx context.Context) (*ModelTx, error) {
 	dbxCopy := new(dbx.DBX)
 	*dbxCopy = *m.dbx
+
+	if err := dbxCopy.SetTx(ctx); err != nil {
+		return nil, err
+	}
+
 	modelCopy := &Model{
 		dbxCopy,
 		NewWebhookModel(dbxCopy),
 		NewEventModel(dbxCopy),
 	}
-	return &ModelTx{modelCopy}
-}
 
-func (c *ModelTx) Start(ctx context.Context) error {
-	tx, err := c.dbx.BeginTxx(ctx, c.dbx.TxOptions)
-	if err != nil {
-		return err
-	}
-
-	c.dbx.Tx = tx
-
-	return nil
+	return &ModelTx{modelCopy}, nil
 }
 
 func (c *ModelTx) Cancel() error {
