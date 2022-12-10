@@ -37,12 +37,12 @@ func (m *Model) Tx(ctx context.Context) (*ModelTx, error) {
 	return &ModelTx{modelCopy}, nil
 }
 
-func (c *ModelTx) Cancel() error {
-	return c.dbx.Tx.Rollback()
+func (m *ModelTx) Cancel() error {
+	return m.dbx.Tx.Rollback()
 }
 
-func (c *ModelTx) End() error {
-	return c.dbx.Tx.Commit()
+func (m *ModelTx) End() error {
+	return m.dbx.Tx.Commit()
 }
 
 func NewModel(dbx *dbx.DBX) *Model {
