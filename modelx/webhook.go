@@ -17,6 +17,8 @@ type WebhookModel struct {
 	autoTxDB AutoTxDB
 }
 
+type WebhookAdapt struct{}
+
 func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error) {
 	args := make([]interface{}, 0)
 
@@ -95,7 +97,7 @@ func (m WebhookModel) CreateWebhook(target Webhook) error {
 	return err
 }
 
-func (m WebhookModel) AdaptModel(domainwebhook domain.Webhook) (modelwebhook Webhook) {
+func (a WebhookAdapt) AdaptModel(domainwebhook domain.Webhook) (modelwebhook Webhook) {
 	modelwebhook = Webhook{
 		ID:       domainwebhook.ID,
 		Callback: domainwebhook.Callback,
@@ -103,7 +105,7 @@ func (m WebhookModel) AdaptModel(domainwebhook domain.Webhook) (modelwebhook Web
 	return
 }
 
-func (m WebhookModel) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.Webhook) {
+func (a WebhookAdapt) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.Webhook) {
 	domainwebhook = domain.Webhook{
 		ID:       modelwebhook.ID,
 		Callback: modelwebhook.Callback,
