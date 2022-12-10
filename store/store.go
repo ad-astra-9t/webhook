@@ -8,6 +8,7 @@ import (
 
 type Store struct {
 	modelx *modelx.Modelx
+	adapt  *modelx.ModelAdapt
 	WebhookStore
 	EventStore
 }
@@ -26,7 +27,8 @@ func (s *Store) Tx(ctx context.Context) (*StoreTx, error) {
 
 	storeCopy := &Store{
 		modelxCopy,
-		NewWebhookStore(modelxCopy),
+		s.adapt,
+		NewWebhookStore(modelxCopy, s.adapt),
 		NewEventStore(modelxCopy),
 	}
 
@@ -41,10 +43,11 @@ func (s *StoreTx) End() error {
 	return s.modelx.Tx.End()
 }
 
-func NewStore(modelx *modelx.Modelx) *Store {
+func NewStore(modelx *modelx.Modelx, adapt *modelx.ModelAdapt) *Store {
 	return &Store{
 		modelx,
-		NewWebhookStore(modelx),
+		adapt,
+		NewWebhookStore(modelx, adapt),
 		NewEventStore(modelx),
 	}
 }

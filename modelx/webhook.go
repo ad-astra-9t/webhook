@@ -97,7 +97,7 @@ func (m WebhookModel) CreateWebhook(target Webhook) error {
 	return err
 }
 
-func (a WebhookAdapt) AdaptModel(domainwebhook domain.Webhook) (modelwebhook Webhook) {
+func (a WebhookAdapt) AdaptTarget(domainwebhook domain.Webhook) (modelwebhook Webhook) {
 	modelwebhook = Webhook{
 		ID:       domainwebhook.ID,
 		Callback: domainwebhook.Callback,

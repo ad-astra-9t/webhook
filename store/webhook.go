@@ -6,12 +6,12 @@ import (
 )
 
 type WebhookStore struct {
-	modelx *modelx.Modelx
-	adapt  modelx.WebhookAdapt
+	modelx     *modelx.Modelx
+	modeladapt domain.Adapt[modelx.Webhook, domain.Webhook]
 }
 
 func (s WebhookStore) CreateWebhook(target domain.Webhook) error {
-	modeltarget := s.adapt.AdaptModel(target)
+	modeltarget := s.modeladapt.AdaptTarget(target)
 
 	txmodel, err := s.modelx.AutoTx()
 	if err != nil {
@@ -22,7 +22,7 @@ func (s WebhookStore) CreateWebhook(target domain.Webhook) error {
 }
 
 func (s WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, err error) {
-	modeltarget := s.adapt.AdaptModel(target)
+	modeltarget := s.modeladapt.AdaptTarget(target)
 
 	txmodel, err := s.modelx.AutoTx()
 	if err != nil {
@@ -34,11 +34,14 @@ func (s WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, 
 		return result, err
 	}
 
-	result = s.adapt.AdaptDomain(modelresult)
+	result = s.modeladapt.AdaptDomain(modelresult)
 
 	return result, err
 }
 
-func NewWebhookStore(modelx *modelx.Modelx) WebhookStore {
-	return WebhookStore{modelx: modelx}
+func NewWebhookStore(modelx *modelx.Modelx, adapt *modelx.ModelAdapt) WebhookStore {
+	return WebhookStore{
+		modelx,
+		adapt,
+	}
 }

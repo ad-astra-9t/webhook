@@ -6,7 +6,7 @@ import (
 
 	"github.com/ad-astra-9t/webhook/dbx"
 	"github.com/ad-astra-9t/webhook/domain"
-	"github.com/ad-astra-9t/webhook/modelx"
+	mdx "github.com/ad-astra-9t/webhook/modelx"
 )
 
 func TestCreateWebhook(t *testing.T) {
@@ -16,10 +16,11 @@ func TestCreateWebhook(t *testing.T) {
 			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 		)
 		dbx := dbx.NewDBX(db)
-		model := modelx.NewModel(dbx)
-		store := WebhookStore{
-			modelx: modelx.NewModelx(model),
-		}
+		model := mdx.NewModel(dbx)
+		modelx := mdx.NewModelx(model)
+		adapt := &mdx.ModelAdapt{}
+		store := NewWebhookStore(modelx, adapt)
+
 		target := domain.Webhook{Callback: "https://callback.com"}
 
 		err := store.CreateWebhook(target)
