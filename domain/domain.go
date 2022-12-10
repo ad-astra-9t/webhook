@@ -5,7 +5,7 @@ type DomainType interface {
 		Event
 }
 
-type Adapt[T any, D DomainType] interface {
+type Adapt[D DomainType, T any] interface {
 	AdaptTarget(domain D) (target T)
 	AdaptDomain(target T) (domain D)
 }

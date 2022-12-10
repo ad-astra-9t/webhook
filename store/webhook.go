@@ -7,7 +7,7 @@ import (
 
 type WebhookStore struct {
 	modelx     *modelx.Modelx
-	modeladapt domain.Adapt[modelx.Webhook, domain.Webhook]
+	modeladapt domain.Adapt[domain.Webhook, modelx.Webhook]
 }
 
 func (s WebhookStore) CreateWebhook(target domain.Webhook) error {
