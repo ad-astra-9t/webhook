@@ -3,11 +3,11 @@ package modelx
 import (
 	"context"
 
-	"github.com/ad-astra-9t/webhook/dbx"
+	"github.com/ad-astra-9t/webhook/autotx"
 )
 
 type Model struct {
-	dbx *dbx.DBX
+	dbx *autotx.DBX
 	WebhookModel
 	EventModel
 }
@@ -17,11 +17,11 @@ type ModelTx struct {
 }
 
 type AutoTxDB interface {
-	AutoTx() (dbx.TxDB, error)
+	AutoTx() (autotx.TxDB, error)
 }
 
 func (m *Model) Tx(ctx context.Context) (*ModelTx, error) {
-	dbxCopy := new(dbx.DBX)
+	dbxCopy := new(autotx.DBX)
 	*dbxCopy = *m.dbx
 
 	if err := dbxCopy.SetTx(ctx); err != nil {
@@ -45,7 +45,7 @@ func (m *ModelTx) End() error {
 	return m.dbx.Tx.Commit()
 }
 
-func NewModel(dbx *dbx.DBX) *Model {
+func NewModel(dbx *autotx.DBX) *Model {
 	return &Model{
 		dbx,
 		NewWebhookModel(dbx),
