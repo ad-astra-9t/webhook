@@ -1,13 +1,17 @@
 package modelx
 
+import (
+	"github.com/ad-astra-9t/webhook/dbx"
+)
+
 type Event struct {
 	ID uint `db:"id"`
 }
 
 type EventModel struct {
-	autoTxDB AutoTxDB
+	db dbx.DB
 }
 
-func NewEventModel(autoTxDB AutoTxDB) EventModel {
-	return EventModel{autoTxDB}
+func NewEventModel(db dbx.DB) EventModel {
+	return EventModel{db}
 }
