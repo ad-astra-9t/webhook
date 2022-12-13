@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
+	"github.com/ad-astra-9t/webhook/dbx"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -12,11 +13,6 @@ type DBX struct {
 	*sqlx.DB
 	Tx        *sqlx.Tx
 	TxOptions *sql.TxOptions
-}
-
-type TxDB interface {
-	sqlx.Ext
-	sqlx.ExtContext
 }
 
 func (d *DBX) SetTx(ctx context.Context) error {
@@ -30,7 +26,7 @@ func (d *DBX) SetTx(ctx context.Context) error {
 	return nil
 }
 
-func (d *DBX) AutoTx() (TxDB, error) {
+func (d *DBX) AutoTx() (dbx.DB, error) {
 	if d.Tx != nil {
 		return d.Tx, nil
 	}
