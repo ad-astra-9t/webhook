@@ -12,24 +12,13 @@ type WebhookStore struct {
 
 func (s WebhookStore) CreateWebhook(target domain.Webhook) error {
 	modeltarget := s.modeladapt.AdaptTarget(target)
-
-	txmodel, err := s.modelx.AutoTx()
-	if err != nil {
-		return err
-	}
-
-	return txmodel.CreateWebhook(modeltarget)
+	return s.modelx.CreateWebhook(modeltarget)
 }
 
 func (s WebhookStore) GetWebhook(target domain.Webhook) (result domain.Webhook, err error) {
 	modeltarget := s.modeladapt.AdaptTarget(target)
 
-	txmodel, err := s.modelx.AutoTx()
-	if err != nil {
-		return result, err
-	}
-
-	modelresult, err := txmodel.GetWebhook(modeltarget)
+	modelresult, err := s.modelx.GetWebhook(modeltarget)
 	if err != nil {
 		return result, err
 	}

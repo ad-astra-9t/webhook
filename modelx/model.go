@@ -3,7 +3,6 @@ package modelx
 import (
 	"context"
 
-	"github.com/ad-astra-9t/webhook/db"
 	"github.com/ad-astra-9t/webhook/tx"
 )
 
@@ -15,10 +14,6 @@ type Model struct {
 
 type ModelTx struct {
 	*Model
-}
-
-type AutoTxDB interface {
-	AutoTx() (db.DB, error)
 }
 
 func (m *Model) Tx(ctx context.Context) (*ModelTx, error) {

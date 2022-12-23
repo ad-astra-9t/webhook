@@ -2,7 +2,6 @@ package modelx
 
 import (
 	"context"
-	"errors"
 )
 
 type Modelx struct {
@@ -24,16 +23,6 @@ func (m *Modelx) SetTx(ctx context.Context) error {
 	m.Tx = tx
 
 	return nil
-}
-
-func (m *Modelx) AutoTx() (TxModel, error) {
-	if m.Tx != nil {
-		return m.Tx, nil
-	}
-	if m.Model != nil {
-		return m.Model, nil
-	}
-	return nil, errors.New("failed to convert Modelx to TxModel")
 }
 
 func NewModelx(model *Model) *Modelx {
