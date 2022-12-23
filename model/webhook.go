@@ -6,7 +6,6 @@ import (
 
 	"github.com/ad-astra-9t/webhook/db"
 	query "github.com/ad-astra-9t/webhook/db/query"
-	"github.com/ad-astra-9t/webhook/domain"
 )
 
 type Webhook struct {
@@ -17,8 +16,6 @@ type Webhook struct {
 type WebhookModel struct {
 	db db.DB
 }
-
-type WebhookAdapt struct{}
 
 func (m WebhookModel) getWebhookArgs(modelwebhook Webhook) ([]interface{}, error) {
 	args := make([]interface{}, 0)
@@ -86,22 +83,6 @@ func (m WebhookModel) CreateWebhook(target Webhook) error {
 	_, err = m.db.Exec(query, args...)
 
 	return err
-}
-
-func (a WebhookAdapt) AdaptTarget(domainwebhook domain.Webhook) (modelwebhook Webhook) {
-	modelwebhook = Webhook{
-		ID:       domainwebhook.ID,
-		Callback: domainwebhook.Callback,
-	}
-	return
-}
-
-func (a WebhookAdapt) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.Webhook) {
-	domainwebhook = domain.Webhook{
-		ID:       modelwebhook.ID,
-		Callback: modelwebhook.Callback,
-	}
-	return
 }
 
 func NewWebhookModel(db db.DB) WebhookModel {
