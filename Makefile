@@ -1,5 +1,5 @@
 TEST_PGDB_NAME=testdb
-TEST_PGDB_INIT_SCRIPT_DIR=$(PWD)/init-db
+TEST_PGDB_INIT_SCRIPT_DIR=$(PWD)/initdb
 
 start-test-db-container:
 	docker run \
