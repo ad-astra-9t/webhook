@@ -1,17 +1,17 @@
-package store
+package tx
 
 import (
 	"context"
 
 	"github.com/ad-astra-9t/webhook/model"
-	"github.com/ad-astra-9t/webhook/tx"
+	"github.com/ad-astra-9t/webhook/store"
 )
 
 type ModelxStore struct {
-	modelx *tx.Modelx
+	modelx *Modelx
 	adapt  *model.ModelAdapt
-	WebhookStore
-	EventStore
+	store.WebhookStore
+	store.EventStore
 }
 
 type StoreTx struct {
@@ -19,7 +19,7 @@ type StoreTx struct {
 }
 
 func (s *ModelxStore) Tx(ctx context.Context) (*StoreTx, error) {
-	modelxCopy := new(tx.Modelx)
+	modelxCopy := new(Modelx)
 	*modelxCopy = *s.modelx
 
 	if err := modelxCopy.SetTx(ctx); err != nil {
@@ -29,8 +29,8 @@ func (s *ModelxStore) Tx(ctx context.Context) (*StoreTx, error) {
 	storeCopy := &ModelxStore{
 		modelxCopy,
 		s.adapt,
-		NewWebhookStore(modelxCopy, s.adapt),
-		NewEventStore(modelxCopy),
+		store.NewWebhookStore(modelxCopy, s.adapt),
+		store.NewEventStore(modelxCopy),
 	}
 
 	return &StoreTx{storeCopy}, nil
@@ -44,11 +44,11 @@ func (s *StoreTx) End() error {
 	return s.modelx.Tx.End()
 }
 
-func NewModelxStore(modelx *tx.Modelx, adapt *model.ModelAdapt) *ModelxStore {
+func NewModelxStore(modelx *Modelx, adapt *model.ModelAdapt) *ModelxStore {
 	return &ModelxStore{
 		modelx,
 		adapt,
-		NewWebhookStore(modelx, adapt),
-		NewEventStore(modelx),
+		store.NewWebhookStore(modelx, adapt),
+		store.NewEventStore(modelx),
 	}
 }
