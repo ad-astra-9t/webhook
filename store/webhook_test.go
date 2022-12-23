@@ -4,10 +4,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ad-astra-9t/webhook/autotx"
 	"github.com/ad-astra-9t/webhook/db"
 	"github.com/ad-astra-9t/webhook/domain"
 	mdx "github.com/ad-astra-9t/webhook/modelx"
+	"github.com/ad-astra-9t/webhook/tx"
 )
 
 func TestCreateWebhook(t *testing.T) {
@@ -16,7 +16,7 @@ func TestCreateWebhook(t *testing.T) {
 			"postgres",
 			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 		)
-		dbx := autotx.NewDBX(db)
+		dbx := tx.NewDBX(db)
 		model := mdx.NewModel(dbx)
 		modelx := mdx.NewModelx(model)
 		adapt := &mdx.ModelAdapt{}

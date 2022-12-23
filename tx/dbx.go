@@ -1,4 +1,4 @@
-package autotx
+package tx
 
 import (
 	"context"
