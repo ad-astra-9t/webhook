@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/ad-astra-9t/webhook/dbx"
+	"github.com/ad-astra-9t/webhook/db"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -26,7 +26,7 @@ func (d *DBX) SetTx(ctx context.Context) error {
 	return nil
 }
 
-func (d *DBX) AutoTx() (dbx.DB, error) {
+func (d *DBX) AutoTx() (db.DB, error) {
 	if d.Tx != nil {
 		return d.Tx, nil
 	}

@@ -1,7 +1,7 @@
 package modelx
 
 import (
-	"github.com/ad-astra-9t/webhook/dbx"
+	"github.com/ad-astra-9t/webhook/db"
 )
 
 type Event struct {
@@ -9,9 +9,9 @@ type Event struct {
 }
 
 type EventModel struct {
-	db dbx.DB
+	db db.DB
 }
 
-func NewEventModel(db dbx.DB) EventModel {
+func NewEventModel(db db.DB) EventModel {
 	return EventModel{db}
 }

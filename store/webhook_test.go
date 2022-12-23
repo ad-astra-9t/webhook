@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	"github.com/ad-astra-9t/webhook/autotx"
-	"github.com/ad-astra-9t/webhook/dbx"
+	"github.com/ad-astra-9t/webhook/db"
 	"github.com/ad-astra-9t/webhook/domain"
 	mdx "github.com/ad-astra-9t/webhook/modelx"
 )
 
 func TestCreateWebhook(t *testing.T) {
 	t.Run("Test create webhook", func(t *testing.T) {
-		db := dbx.MustNewDB(
+		db := db.MustNewDB(
 			"postgres",
 			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 		)

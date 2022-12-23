@@ -4,8 +4,8 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/ad-astra-9t/webhook/dbx"
-	query "github.com/ad-astra-9t/webhook/dbx/query"
+	"github.com/ad-astra-9t/webhook/db"
+	query "github.com/ad-astra-9t/webhook/db/query"
 	"github.com/ad-astra-9t/webhook/domain"
 )
 
@@ -15,7 +15,7 @@ type Webhook struct {
 }
 
 type WebhookModel struct {
-	db dbx.DB
+	db db.DB
 }
 
 type WebhookAdapt struct{}
@@ -104,6 +104,6 @@ func (a WebhookAdapt) AdaptDomain(modelwebhook Webhook) (domainwebhook domain.We
 	return
 }
 
-func NewWebhookModel(db dbx.DB) WebhookModel {
+func NewWebhookModel(db db.DB) WebhookModel {
 	return WebhookModel{db}
 }
