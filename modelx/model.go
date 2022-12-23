@@ -6,17 +6,22 @@ import (
 	"github.com/ad-astra-9t/webhook/tx"
 )
 
-type Model struct {
+type Model interface {
+	GetWebhook(target Webhook) (result Webhook, err error)
+	CreateWebhook(target Webhook) error
+}
+
+type DBXModel struct {
 	dbx *tx.DBX
 	WebhookModel
 	EventModel
 }
 
 type ModelTx struct {
-	*Model
+	*DBXModel
 }
 
-func (m *Model) Tx(ctx context.Context) (*ModelTx, error) {
+func (m *DBXModel) Tx(ctx context.Context) (*ModelTx, error) {
 	dbxCopy := new(tx.DBX)
 	*dbxCopy = *m.dbx
 
@@ -24,7 +29,7 @@ func (m *Model) Tx(ctx context.Context) (*ModelTx, error) {
 		return nil, err
 	}
 
-	modelCopy := &Model{
+	modelCopy := &DBXModel{
 		dbxCopy,
 		NewWebhookModel(dbxCopy),
 		NewEventModel(dbxCopy),
@@ -41,8 +46,8 @@ func (m *ModelTx) End() error {
 	return m.dbx.Tx.Commit()
 }
 
-func NewModel(dbx *tx.DBX) *Model {
-	return &Model{
+func NewDBXModel(dbx *tx.DBX) *DBXModel {
+	return &DBXModel{
 		dbx,
 		NewWebhookModel(dbx),
 		NewEventModel(dbx),

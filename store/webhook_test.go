@@ -17,7 +17,7 @@ func TestCreateWebhook(t *testing.T) {
 			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 		)
 		dbx := tx.NewDBX(db)
-		model := mdx.NewModel(dbx)
+		model := mdx.NewDBXModel(dbx)
 		modelx := mdx.NewModelx(model)
 		adapt := &mdx.ModelAdapt{}
 		store := NewWebhookStore(modelx, adapt)

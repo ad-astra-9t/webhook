@@ -5,12 +5,12 @@ import (
 )
 
 type Modelx struct {
-	*Model
+	*DBXModel
 	Tx *ModelTx
 }
 
 func (m *Modelx) SetTx(ctx context.Context) error {
-	tx, err := m.Model.Tx(ctx)
+	tx, err := m.DBXModel.Tx(ctx)
 	if err != nil {
 		return err
 	}
@@ -20,6 +20,6 @@ func (m *Modelx) SetTx(ctx context.Context) error {
 	return nil
 }
 
-func NewModelx(model *Model) *Modelx {
-	return &Modelx{Model: model}
+func NewModelx(model *DBXModel) *Modelx {
+	return &Modelx{DBXModel: model}
 }
