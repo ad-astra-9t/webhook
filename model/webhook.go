@@ -1,4 +1,4 @@
-package modelx
+package model
 
 import (
 	"errors"

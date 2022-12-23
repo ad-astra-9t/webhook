@@ -3,13 +3,13 @@ package store
 import (
 	"context"
 
-	"github.com/ad-astra-9t/webhook/modelx"
+	"github.com/ad-astra-9t/webhook/model"
 	"github.com/ad-astra-9t/webhook/tx"
 )
 
 type Store struct {
 	modelx *tx.Modelx
-	adapt  *modelx.ModelAdapt
+	adapt  *model.ModelAdapt
 	WebhookStore
 	EventStore
 }
@@ -44,7 +44,7 @@ func (s *StoreTx) End() error {
 	return s.modelx.Tx.End()
 }
 
-func NewStore(modelx *tx.Modelx, adapt *modelx.ModelAdapt) *Store {
+func NewStore(modelx *tx.Modelx, adapt *model.ModelAdapt) *Store {
 	return &Store{
 		modelx,
 		adapt,

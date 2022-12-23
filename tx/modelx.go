@@ -3,7 +3,7 @@ package tx
 import (
 	"context"
 
-	"github.com/ad-astra-9t/webhook/modelx"
+	"github.com/ad-astra-9t/webhook/model"
 )
 
 type Modelx struct {
@@ -13,8 +13,8 @@ type Modelx struct {
 
 type DBXModel struct {
 	dbx *DBX
-	modelx.WebhookModel
-	modelx.EventModel
+	model.WebhookModel
+	model.EventModel
 }
 
 type ModelTx struct {
@@ -42,8 +42,8 @@ func (m *DBXModel) Tx(ctx context.Context) (*ModelTx, error) {
 
 	modelCopy := &DBXModel{
 		dbxCopy,
-		modelx.NewWebhookModel(dbxCopy),
-		modelx.NewEventModel(dbxCopy),
+		model.NewWebhookModel(dbxCopy),
+		model.NewEventModel(dbxCopy),
 	}
 
 	return &ModelTx{modelCopy}, nil
@@ -60,8 +60,8 @@ func (m *ModelTx) End() error {
 func NewDBXModel(dbx *DBX) *DBXModel {
 	return &DBXModel{
 		dbx,
-		modelx.NewWebhookModel(dbx),
-		modelx.NewEventModel(dbx),
+		model.NewWebhookModel(dbx),
+		model.NewEventModel(dbx),
 	}
 }
 

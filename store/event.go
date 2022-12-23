@@ -1,11 +1,11 @@
 package store
 
-import "github.com/ad-astra-9t/webhook/modelx"
+import "github.com/ad-astra-9t/webhook/model"
 
 type EventStore struct {
-	model modelx.Model
+	model model.Model
 }
 
-func NewEventStore(model modelx.Model) EventStore {
+func NewEventStore(model model.Model) EventStore {
 	return EventStore{model}
 }

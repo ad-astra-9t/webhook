@@ -1,4 +1,4 @@
-package modelx
+package model
 
 type ModelAdapt struct {
 	WebhookAdapt

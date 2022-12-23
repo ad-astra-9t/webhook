@@ -1,4 +1,4 @@
-package modelx
+package model
 
 import (
 	"github.com/ad-astra-9t/webhook/db"
