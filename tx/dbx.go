@@ -24,6 +24,14 @@ func (d *DBX) SetTx(ctx context.Context) error {
 	return nil
 }
 
+func (d *DBX) Cancel() error {
+	return d.Tx.Rollback()
+}
+
+func (d *DBX) End() error {
+	return d.Tx.Commit()
+}
+
 func NewDBX(db *sqlx.DB) *DBX {
 	return &DBX{DB: db}
 }

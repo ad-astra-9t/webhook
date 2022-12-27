@@ -50,11 +50,11 @@ func (m *DBXModel) Tx(ctx context.Context) (*ModelTx, error) {
 }
 
 func (m *ModelTx) Cancel() error {
-	return m.dbx.Tx.Rollback()
+	return m.dbx.Cancel()
 }
 
 func (m *ModelTx) End() error {
-	return m.dbx.Tx.Commit()
+	return m.dbx.End()
 }
 
 func NewDBXModel(dbx *DBX) *DBXModel {
