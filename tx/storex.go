@@ -37,11 +37,11 @@ func (s *ModelxStore) Tx(ctx context.Context) (*StoreTx, error) {
 }
 
 func (s *StoreTx) Cancel() error {
-	return s.modelx.Tx.Cancel()
+	return s.modelx.Cancel()
 }
 
 func (s *StoreTx) End() error {
-	return s.modelx.Tx.End()
+	return s.modelx.End()
 }
 
 func NewModelxStore(modelx *Modelx, adapt *model.ModelAdapt) *ModelxStore {

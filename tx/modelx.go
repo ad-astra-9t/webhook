@@ -32,6 +32,14 @@ func (m *Modelx) SetTx(ctx context.Context) error {
 	return nil
 }
 
+func (m *Modelx) Cancel() error {
+	return m.Tx.Cancel()
+}
+
+func (m *Modelx) End() error {
+	return m.Tx.End()
+}
+
 func (m *DBXModel) Tx(ctx context.Context) (*ModelTx, error) {
 	dbxCopy := new(DBX)
 	*dbxCopy = *m.dbx
