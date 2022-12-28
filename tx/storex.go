@@ -7,6 +7,11 @@ import (
 	"github.com/ad-astra-9t/webhook/store"
 )
 
+type Storex struct {
+	*ModelxStore
+	Tx *StoreTx
+}
+
 type ModelxStore struct {
 	modelx *Modelx
 	adapt  *model.ModelAdapt
@@ -16,6 +21,25 @@ type ModelxStore struct {
 
 type StoreTx struct {
 	*ModelxStore
+}
+
+func (s *Storex) SetTx(ctx context.Context) error {
+	tx, err := s.ModelxStore.Tx(ctx)
+	if err != nil {
+		return err
+	}
+
+	s.Tx = tx
+
+	return nil
+}
+
+func (s *Storex) Cancel() error {
+	return s.Tx.Cancel()
+}
+
+func (s *Storex) End() error {
+	return s.Tx.End()
 }
 
 func (s *ModelxStore) Tx(ctx context.Context) (*StoreTx, error) {
@@ -51,4 +75,8 @@ func NewModelxStore(modelx *Modelx, adapt *model.ModelAdapt) *ModelxStore {
 		store.NewWebhookStore(modelx, adapt),
 		store.NewEventStore(modelx),
 	}
+}
+
+func NewStorex(store *ModelxStore) *Storex {
+	return &Storex{ModelxStore: store}
 }
