@@ -16,7 +16,9 @@ func TestStorex_CreateWebhook(t *testing.T) {
 		"postgres",
 		"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
 	)
-	dbx := NewDBX(db)
+	txOptions := &sql.TxOptions{}
+	txdb := NewTxDB(db, txOptions)
+	dbx := NewDBX(txdb)
 	model := NewDBXModel(dbx)
 	modelx := NewModelx(model)
 	adapt := mdl.ModelAdapt{}
