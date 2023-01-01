@@ -10,15 +10,15 @@ import (
 )
 
 func TestCreateWebhook(t *testing.T) {
-	t.Run("Test create webhook", func(t *testing.T) {
-		db := db.MustNewDB(
-			"postgres",
-			"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
-		)
-		model := mdl.NewDefaultModel(db)
-		adapt := &mdl.ModelAdapt{}
-		store := NewWebhookStore(model, adapt)
+	db := db.MustNewDB(
+		"postgres",
+		"host=localhost port=5431 user=test password=test dbname=testdb sslmode=disable",
+	)
+	model := mdl.NewDefaultModel(db)
+	adapt := &mdl.ModelAdapt{}
+	store := NewWebhookStore(model, adapt)
 
+	t.Run("Test create webhook", func(t *testing.T) {
 		target := domain.Webhook{Callback: "https://callback.com"}
 
 		err := store.CreateWebhook(target)
