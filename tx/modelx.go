@@ -8,7 +8,7 @@ import (
 
 type Modelx struct {
 	*DBXModel
-	Tx *DBXModel
+	swap *DBXModel
 }
 
 type DBXModel struct {
@@ -23,18 +23,24 @@ func (m *Modelx) SetTx(ctx context.Context) error {
 		return err
 	}
 
-	m.Tx = m.DBXModel
+	m.swap = m.DBXModel
 	m.DBXModel = tx
 
 	return nil
 }
 
 func (m *Modelx) Cancel() error {
-	return m.dbx.Cancel()
+	tx := m.DBXModel
+	m.DBXModel = m.swap
+	m.swap = nil
+	return tx.dbx.Cancel()
 }
 
 func (m *Modelx) End() error {
-	return m.dbx.End()
+	tx := m.DBXModel
+	m.DBXModel = m.swap
+	m.swap = nil
+	return tx.dbx.End()
 }
 
 func (m *DBXModel) Tx(ctx context.Context) (*DBXModel, error) {

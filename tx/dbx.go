@@ -10,7 +10,7 @@ import (
 
 type DBX struct {
 	*TxDB
-	Tx *TxDB
+	swap *TxDB
 }
 
 type TxDB struct {
@@ -25,18 +25,24 @@ func (d *DBX) SetTx(ctx context.Context) error {
 		return err
 	}
 
-	d.Tx = d.TxDB
+	d.swap = d.TxDB
 	d.TxDB = tx
 
 	return nil
 }
 
 func (d *DBX) Cancel() error {
-	return d.TxDB.DB.(*sqlx.Tx).Rollback()
+	tx := d.TxDB
+	d.TxDB = d.swap
+	d.swap = nil
+	return tx.DB.(*sqlx.Tx).Rollback()
 }
 
 func (d *DBX) End() error {
-	return d.TxDB.DB.(*sqlx.Tx).Commit()
+	tx := d.TxDB
+	d.TxDB = d.swap
+	d.swap = nil
+	return tx.DB.(*sqlx.Tx).Commit()
 }
 
 func (t *TxDB) Tx(ctx context.Context) (*TxDB, error) {

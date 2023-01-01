@@ -9,7 +9,7 @@ import (
 
 type Storex struct {
 	*ModelxStore
-	Tx *ModelxStore
+	swap *ModelxStore
 }
 
 type ModelxStore struct {
@@ -25,18 +25,24 @@ func (s *Storex) SetTx(ctx context.Context) error {
 		return err
 	}
 
-	s.Tx = s.ModelxStore
+	s.swap = s.ModelxStore
 	s.ModelxStore = tx
 
 	return nil
 }
 
 func (s *Storex) Cancel() error {
-	return s.modelx.Cancel()
+	tx := s.ModelxStore
+	s.ModelxStore = s.swap
+	s.swap = nil
+	return tx.modelx.Cancel()
 }
 
 func (s *Storex) End() error {
-	return s.modelx.End()
+	tx := s.ModelxStore
+	s.ModelxStore = s.swap
+	s.swap = nil
+	return tx.modelx.End()
 }
 
 func (s *ModelxStore) Tx(ctx context.Context) (*ModelxStore, error) {
