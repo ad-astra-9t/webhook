@@ -23,7 +23,8 @@ func (m *Modelx) SetTx(ctx context.Context) error {
 		return err
 	}
 
-	m.Tx = tx
+	m.Tx = m.DBXModel
+	m.DBXModel = tx
 
 	return nil
 }

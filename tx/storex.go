@@ -25,7 +25,8 @@ func (s *Storex) SetTx(ctx context.Context) error {
 		return err
 	}
 
-	s.Tx = tx
+	s.Tx = s.ModelxStore
+	s.ModelxStore = tx
 
 	return nil
 }
