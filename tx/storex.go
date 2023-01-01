@@ -9,7 +9,7 @@ import (
 
 type Storex struct {
 	*ModelxStore
-	Tx *StoreTx
+	Tx *ModelxStore
 }
 
 type ModelxStore struct {
@@ -17,10 +17,6 @@ type ModelxStore struct {
 	adapt  *model.ModelAdapt
 	store.WebhookStore
 	store.EventStore
-}
-
-type StoreTx struct {
-	*ModelxStore
 }
 
 func (s *Storex) SetTx(ctx context.Context) error {
@@ -35,14 +31,14 @@ func (s *Storex) SetTx(ctx context.Context) error {
 }
 
 func (s *Storex) Cancel() error {
-	return s.Tx.Cancel()
+	return s.modelx.Cancel()
 }
 
 func (s *Storex) End() error {
-	return s.Tx.End()
+	return s.modelx.End()
 }
 
-func (s *ModelxStore) Tx(ctx context.Context) (*StoreTx, error) {
+func (s *ModelxStore) Tx(ctx context.Context) (*ModelxStore, error) {
 	modelxCopy := new(Modelx)
 	*modelxCopy = *s.modelx
 
@@ -57,15 +53,7 @@ func (s *ModelxStore) Tx(ctx context.Context) (*StoreTx, error) {
 		store.NewEventStore(modelxCopy),
 	}
 
-	return &StoreTx{storeCopy}, nil
-}
-
-func (s *StoreTx) Cancel() error {
-	return s.modelx.Cancel()
-}
-
-func (s *StoreTx) End() error {
-	return s.modelx.End()
+	return storeCopy, nil
 }
 
 func NewModelxStore(modelx *Modelx, adapt *model.ModelAdapt) *ModelxStore {
