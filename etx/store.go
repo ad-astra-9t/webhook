@@ -17,7 +17,7 @@ func (e *StoreEtx) Etx(ctx context.Context) error {
 		return errors.New("already in tx state")
 	}
 
-	tx, err := e.StoreCptx.Cptx(ctx)
+	tx, err := e.Cptx(ctx)
 	if err != nil {
 		return err
 	}
